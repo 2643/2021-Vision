@@ -7,7 +7,7 @@ Wants=network-online.target
 
 [Service]
 User=pi
-WorkingDirectory=//home/pi/Documents/2021-vision/galactic_search/
+WorkingDirectory=/home/pi/Documents/2021-vision/galactic_search/
 ExecStart=/usr/bin/python3 /home/pi/Documents/2021-vision/galactic_search/marker_tracking.py
 Restart=on-failure
 RestartSec=15
