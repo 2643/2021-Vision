@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from collections import deque
 from networktables import NetworkTables
 import numpy as np

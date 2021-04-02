@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from collections import deque
 from networktables import NetworkTables
 # from sympy import Interval, Union # not performant enough with multiple interval joins.
