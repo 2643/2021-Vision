@@ -115,8 +115,6 @@ blue_pts = deque(maxlen=args["buffer"])
 
 vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
-vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-vs.set(cv2.CAP_PROP_EXPOSURE, 50)
 
 time.sleep(1.0)
 
