@@ -60,7 +60,29 @@ def connect():
 
 
 if CONNECT_TO_SERVER:
-    table = connect()
+	table = connect()
+	DEBUG = {
+		'show_img': False,
+		'show_filter': False,
+		'show_centroid': False,
+		'show_centers': {
+			'blue': False,
+			'red': False
+		},
+		'show_max_box': {
+			'blue': False,
+			'red': False	
+		},
+		'show_lines': {
+			'blue': False,
+			'red': False	
+		},
+		'draw_normal_box': {
+			'blue': False,
+			'red': False	
+		},
+		'show_trails': False
+	}
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()

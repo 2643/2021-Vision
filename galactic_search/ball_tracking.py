@@ -13,7 +13,8 @@ DEBUG = {
 	'show_img': True,
 	'show_filter': True,
 	'show_band': True,
-	'show_horiz_div': True}
+	'show_horiz_div': True
+}
 CONNECT_TO_SERVER = False
 PRODUCTION = True # remove some double calculations. not actually.
 CENTER_BAND = 100
@@ -39,11 +40,17 @@ def connect():
         if not notified[0]:
             cond.wait()
 
-    return NetworkTables.getTable('gs-vision-table')
+	return NetworkTables.getTable('gs-vision-table')
 
 
 if CONNECT_TO_SERVER:
-    table = connect()
+	table = connect()
+	DEBUG = {
+		'show_img': False,
+		'show_filter': False,
+		'show_band': False,
+		'show_horiz_div': False
+	}
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-b", "--buffer", type=int, default=64,
