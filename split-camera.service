@@ -1,0 +1,16 @@
+[Unit]
+Description=Split camera for multiple services to consume
+After=network.target
+After=network-online.target
+After=multi-user.target
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/2021-vision/
+ExecStart=/usr/bin/python3 /home/pi/2021-vision/duplicate_stream.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
