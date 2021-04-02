@@ -13,7 +13,8 @@ DEBUG = {
     'show_img': True,
     'show_filter': True,
     'show_band': True,
-    'show_horiz_div': True
+    'show_horiz_div': True,
+    'show_trails': False
 }
 CONNECT_TO_SERVER = False
 PRODUCTION = True # remove some double calculations. not actually.
@@ -49,7 +50,8 @@ if CONNECT_TO_SERVER:
         'show_img': False,
         'show_filter': False,
         'show_band': False,
-        'show_horiz_div': False
+        'show_horiz_div': False,
+        'show_trails': False
     }
 
 ap = argparse.ArgumentParser()
@@ -64,6 +66,8 @@ pts = deque(maxlen=args["buffer"])
 
 vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
+vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+vs.set(cv2.CAP_PROP_EXPOSURE, 50)
 
 time.sleep(1.0)
 
