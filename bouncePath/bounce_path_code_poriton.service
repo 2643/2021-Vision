@@ -1,0 +1,17 @@
+[Unit]
+Description=Start the ball tracking script for galactic search
+After=network.target
+After=network-online.target
+After=multi-user.target
+After=split-camera.service
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/2021-vision/bouncePathCode/
+ExecStart=/usr/bin/python3 /home/pi/2021-vision/bouncePathCode/ball_tracking.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
