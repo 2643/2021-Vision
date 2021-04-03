@@ -7,14 +7,14 @@ fi
 
 chmod a+x duplicate_stream.sh
 ln -f ./camera.path /etc/systemd/system/
-ln -f ./split-camera.service /etc/systemd/system/
+ln -f ./split_camera.service /etc/systemd/system/
 ln -f ./galactic_search/gs_ball_tracking.service /etc/systemd/system/
 ln -f ./galactic_search/gs_marker_tracking.service /etc/systemd/system/
 ln -f ./bounce_path/bounce_path_code_portion.service /etc/systemd/system/
 
 systemctl daemon-reload
 systemctl enable camera.path
-systemctl enable split-camera.service
+systemctl enable split_camera.service
 systemctl enable gs_ball_tracking.service
 systemctl enable gs_marker_tracking.service
 systemctl enable bounce_path_code_portion.service
