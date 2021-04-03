@@ -14,7 +14,8 @@ DEBUG = {
     'show_filter': True,
     'show_band': True,
     'show_horiz_div': True,
-    'show_trails': False
+    'show_trails': False,
+    'rotate': False
 }
 CONNECT_TO_SERVER = False
 PRODUCTION = True # remove some double calculations. not actually.
@@ -51,7 +52,8 @@ if CONNECT_TO_SERVER:
         'show_filter': False,
         'show_band': False,
         'show_horiz_div': False,
-        'show_trails': False
+        'show_trails': False,
+        'rotate': True
     }
 
 ap = argparse.ArgumentParser()
@@ -64,7 +66,7 @@ yellowUpper = (32, 255, 255) # 45, 255, 255
 minRadius = 15 # 10
 pts = deque(maxlen=args["buffer"])
 
-vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+vs = cv2.VideoCapture(2, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
@@ -80,6 +82,8 @@ while True:
     # grab frame
     frame = vs.read()
     frame = frame[1]
+    if DEBUG['rotate']:
+        frame = cv2.getRotationMatrix2D(img_center, 180, 1.0)
 
     # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
