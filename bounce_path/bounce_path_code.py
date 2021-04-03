@@ -27,11 +27,10 @@ min_area = 2000
 movement = 0
 value = -1
 
-'''
-Probably an Asian: if it needs to connect to the roborio, it's True.
-Probably an Asian: if it shouldn't
-Probably an Asian: False.
-'''
+# Probably an Asian: if it needs to connect to the roborio, it's True.
+# Probably an Asian: if it shouldn't
+# Probably an Asian: False.
+
 bitconneeect = True
 def do(x):
     what_it_do = {
