@@ -63,7 +63,7 @@ yellowUpper = (32, 255, 255) # 45, 255, 255
 minRadius = 15 # 10
 pts = deque(maxlen=BUFFER_LEN)
 
-vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+vs = cv2.VideoCapture(21) #, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
