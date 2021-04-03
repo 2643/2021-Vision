@@ -2,7 +2,6 @@
 from collections import deque
 from networktables import NetworkTables
 import numpy as np
-import argparse
 import threading
 import cv2
 import imutils
@@ -21,7 +20,10 @@ CONNECT_TO_SERVER = False
 PRODUCTION = True # remove some double calculations. not actually.
 CENTER_BAND = 100
 HORIZONTAL_OFFSET = 100
-PERCENT_ERROR = 0.25 
+PERCENT_ERROR = 0.25
+BUFFER_LEN = 64
+ROT_ANGLE = 180
+ROT_SCALE = 1.0
 
 def connect():
     cond = threading.Condition()
@@ -56,15 +58,10 @@ if CONNECT_TO_SERVER:
         'rotate': True
     }
 
-ap = argparse.ArgumentParser()
-ap.add_argument("-b", "--buffer", type=int, default=64,
-    help="max buffer size")
-args = vars(ap.parse_args())
-
 yellowLower = (16, 0, 64) # 22, 93, 0
 yellowUpper = (32, 255, 255) # 45, 255, 255
 minRadius = 15 # 10
-pts = deque(maxlen=args["buffer"])
+pts = deque(maxlen=BUFFER_LEN)
 
 vs = cv2.VideoCapture(21, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
@@ -83,7 +80,7 @@ while True:
     frame = vs.read()
     frame = frame[1]
     if DEBUG['rotate']:
-        frame = cv2.getRotationMatrix2D(img_center, 180, 1.0)
+        frame = cv2.getRotationMatrix2D(img_center, ROT_ANGLE, ROT_SCALE)
 
     # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)

@@ -3,7 +3,6 @@ from collections import deque
 from networktables import NetworkTables
 # from sympy import Interval, Union # not performant enough with multiple interval joins.
 import numpy as np
-import argparse
 import threading
 import cv2
 import imutils
@@ -37,6 +36,9 @@ REQ_CLOSEST = True
 CONNECT_TO_SERVER = False
 CENTER_BAND = 100
 HORIZONTAL_OFFSET = 100
+BUFFER_LEN = 32
+ROT_ANGLE = 180
+ROT_SCALE = 1.0
 
 def connect():
     cond = threading.Condition()
@@ -86,13 +88,6 @@ if CONNECT_TO_SERVER:
         'rotate': True
     }
 
-# construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-b", "--buffer", type=int, default=32,
-    help="max buffer size")
-args = vars(ap.parse_args())
-
-
 # TODO: make cyan by image color inversion... perhaps
 # Invert and convert to HSV
 
@@ -111,8 +106,8 @@ blueLower = (100, 80, 0)     # TODO: get vals. higher saturation I think. b/c MP
 blueUpper = (110, 255, 255)   # TODO: get vals. 
 
 minArea = 150 # 10 TODO: tune.
-red_pts = deque(maxlen=args["buffer"])
-blue_pts = deque(maxlen=args["buffer"])
+red_pts = deque(maxlen=BUFFER_LEN)
+blue_pts = deque(maxlen=BUFFER_LEN)
 
 
 vs = cv2.VideoCapture(22, cv2.CAP_DSHOW)
@@ -128,7 +123,7 @@ while True:
     frame = vs.read()
     frame = frame[1]
     if DEBUG['rotate']:
-        frame = cv2.getRotationMatrix2D(img_center, 180, 1.0)
+        frame = cv2.getRotationMatrix2D(img_center, ROT_ANGLE, ROT_SCALE)
 
     # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
