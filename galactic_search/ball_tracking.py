@@ -10,10 +10,10 @@ import time
 CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
-    'show_img': True,
-    'show_filter': True,
-    'show_band': True,
-    'show_horiz_div': True,
+    'show_img': False,
+    'show_filter': False,
+    'show_band': False,
+    'show_horiz_div': False,
     'show_trails': False,
     'rotate': False
 }
@@ -63,7 +63,7 @@ yellowUpper = (32, 255, 255) # 45, 255, 255
 minRadius = 15 # 10
 pts = deque(maxlen=BUFFER_LEN)
 
-vs = cv2.VideoCapture(21) #, cv2.CAP_DSHOW)
+vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
@@ -79,6 +79,7 @@ while True:
     # grab frame
     frame = vs.read()
     frame = frame[1]
+
     if DEBUG['rotate']:
         frame = cv2.getRotationMatrix2D(img_center, ROT_ANGLE, ROT_SCALE)
 
