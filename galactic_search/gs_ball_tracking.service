@@ -7,7 +7,7 @@ After=split-camera.service
 Wants=network-online.target
 
 [Service]
-Type=forking
+Type=simple
 User=pi
 WorkingDirectory=/home/pi/2021-vision/galactic_search/
 ExecStart=/bin/bash -c 'python3 /home/pi/2021-vision/galactic_search/ball_tracking.py'
