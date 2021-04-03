@@ -8,6 +8,7 @@ import cv2
 import imutils
 import time
 
+CONNECT_TO_SERVER = True
 # Normal image, Filter image
 DEBUG = {
     'show_img': True,
@@ -33,7 +34,6 @@ DEBUG = {
     'rotate': False
 }
 REQ_CLOSEST = True
-CONNECT_TO_SERVER = False
 CENTER_BAND = 100
 HORIZONTAL_OFFSET = 100
 BUFFER_LEN = 32

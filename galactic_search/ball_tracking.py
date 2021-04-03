@@ -7,6 +7,7 @@ import cv2
 import imutils
 import time
 
+CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'show_img': True,
@@ -16,7 +17,6 @@ DEBUG = {
     'show_trails': False,
     'rotate': False
 }
-CONNECT_TO_SERVER = False
 PRODUCTION = True # remove some double calculations. not actually.
 CENTER_BAND = 100
 HORIZONTAL_OFFSET = 100
