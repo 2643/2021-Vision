@@ -11,9 +11,6 @@ WorkingDirectory=/home/pi/2021-vision/
 ExecStart=/bin/bash -c '/home/pi/2021-vision/duplicate_stream.sh'
 Restart=on-failure
 RestartSec=5
-Unit=gs_ball_tracking.service
-Unit=gs_marker_tracking.service
-Unit=bounce_path_code_portion.service
 
 [Install]
 WantedBy=multi-user.target
