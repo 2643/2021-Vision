@@ -30,7 +30,8 @@ DEBUG = {
         'blue': True,
         'red': True	
     },
-    'show_trails': False
+    'show_trails': False,
+    'rotate': False
 }
 REQ_CLOSEST = True
 CONNECT_TO_SERVER = False
@@ -81,7 +82,8 @@ if CONNECT_TO_SERVER:
             'blue': False,
             'red': False	
         },
-        'show_trails': False
+        'show_trails': False,
+        'rotate': True
     }
 
 # construct the argument parse and parse the arguments
@@ -125,6 +127,8 @@ img_center = (img_x_size//2, img_y_size//2)
 while True:
     frame = vs.read()
     frame = frame[1]
+    if DEBUG['rotate']:
+        frame = cv2.getRotationMatrix2D(img_center, 180, 1.0)
 
     # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
