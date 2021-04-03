@@ -6,9 +6,8 @@ After=multi-user.target
 Wants=network-online.target
 
 [Service]
-User=pi
 WorkingDirectory=/home/pi/2021-vision/
-ExecStart=/home/pi/2021-vision/duplicate_stream.sh
+ExecStart=/bin/bash -c '/home/pi/2021-vision/duplicate_stream.sh'
 Restart=on-failure
 RestartSec=5
 

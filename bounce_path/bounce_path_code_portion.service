@@ -9,7 +9,7 @@ Wants=network-online.target
 [Service]
 User=pi
 WorkingDirectory=/home/pi/2021-vision/bounce_path/
-ExecStart=/usr/bin/python3 /home/pi/2021-vision/bounce_path/bounce_path_code.py
+ExecStart=/bin/bash -c 'python3 /home/pi/2021-vision/bounce_path/bounce_path_code.py'
 Restart=on-failure
 RestartSec=5
 
