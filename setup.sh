@@ -15,3 +15,6 @@ ln -f ./bounce_path/bounce_path_code_portion.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable camera.path
 systemctl enable split-camera.service
+systemctl enable gs_ball_tracking.service
+systemctl enable gs_marker_tracking.service
+systemctl enable bounce_path_code_portion.service
