@@ -83,7 +83,7 @@ while True:
     y_size = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     black = np.zeros((y_size, x_size, 3), np.uint8)
 
-
+    frame = cv2.rotate(frame, cv2.ROTATE_180)
     image = cv2.inRange(cv2.cvtColor(
         frame, cv2.COLOR_BGR2HSV), lower_color, upper_color)
 
