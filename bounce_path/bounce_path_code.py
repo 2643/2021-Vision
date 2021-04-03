@@ -6,7 +6,7 @@ import imutils
 import array as arr 
 import math
 import threading
-import NetworkTables
+from networktables import NetworkTables
 
 #I HAVE NOW JUST REALIZED WE ARE ONLY TURNING RIGHT THE WHOLE DAMN TIME
 
