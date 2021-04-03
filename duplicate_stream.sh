@@ -13,4 +13,4 @@ ffmpeg -f video4linux2 -i /dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_5AB6901F-vi
 -codec copy -f v4l2 /dev/video21 \
 -codec copy -f v4l2 /dev/video22 \
 -codec copy -f v4l2 /dev/video23 \
--codec copy -f v4l2 /dev/video25
+-codec copy -f v4l2 /dev/video24
