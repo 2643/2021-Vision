@@ -10,7 +10,7 @@ from networktables import NetworkTables
 
 #I HAVE NOW JUST REALIZED WE ARE ONLY TURNING RIGHT THE WHOLE DAMN TIME
 
-cap = cv2.VideoCapture(23, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(23) # , cv2.CAP_DSHOW)
 cap.set(cv2.CAP_PROP_FPS, 20)
 #cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
 #cap.set(cv2.CAP_PROP_EXPOSURE, 50)

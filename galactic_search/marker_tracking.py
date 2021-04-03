@@ -110,7 +110,7 @@ red_pts = deque(maxlen=BUFFER_LEN)
 blue_pts = deque(maxlen=BUFFER_LEN)
 
 
-vs = cv2.VideoCapture(22, cv2.CAP_DSHOW)
+vs = cv2.VideoCapture(22) #, cv2.CAP_DSHOW)
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
