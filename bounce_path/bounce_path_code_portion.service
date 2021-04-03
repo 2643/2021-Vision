@@ -7,6 +7,7 @@ After=split-camera.service
 Wants=network-online.target
 
 [Service]
+Type=forking
 User=pi
 WorkingDirectory=/home/pi/2021-vision/bounce_path/
 ExecStart=/bin/bash -c 'python3 /home/pi/2021-vision/bounce_path/bounce_path_code.py'
