@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import cv2
 import numpy as np
 import random as rng
@@ -5,7 +6,7 @@ import imutils
 import array as arr 
 import math
 import threading
-from networktables import NetworkTables
+import NetworkTables
 
 #I HAVE NOW JUST REALIZED WE ARE ONLY TURNING RIGHT THE WHOLE DAMN TIME
 
@@ -26,6 +27,12 @@ min_area = 2000
 movement = 0
 value = -1
 
+'''
+Probably an Asian: if it needs to connect to the roborio, it's True.
+Probably an Asian: if it shouldn't
+Probably an Asian: False.
+'''
+bitconneeect = True
 def do(x):
     what_it_do = {
         1: "move foward",
@@ -52,7 +59,7 @@ def connect():
         if not notified[0]:
             cond.wait()
 
-if config.getboolean('CONNECT_TO_SERVER'):
+if bitconneeect == True:
     table = connect()
 
 
@@ -187,12 +194,12 @@ while True:
     # cv2.imshow("mask1", image)
     # cv2.imshow("drawing", drawing)
 
-    if config.getboolean('CONNECT_TO_SERVER'):
+    if bitconneeect == True:
         table.putNumber("mode", value)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-if config.getboolean('CONNECT_TO_SERVER'):
+if bitconneeect == True:
         table.putNumber("mode", 4)
 cap.release()
 cv2.destroyAllWindows()
