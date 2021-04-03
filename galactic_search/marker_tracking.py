@@ -292,7 +292,7 @@ while True:
 
                 # otherwise, compute the thickness of the line and
                 # draw the connecting lines
-                thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
+                thickness = int(np.sqrt(BUFFER_LEN / float(i + 1)) * 2.5)
                 cv2.line(frame, red_pts[i - 1], red_pts[i], (0, 0, 255), thickness)
 
             blue_pts.appendleft(blue_max_c['center'])
@@ -306,7 +306,7 @@ while True:
 
                 # otherwise, compute the thickness of the line and
                 # draw the connecting lines
-                thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
+                thickness = int(np.sqrt(BUFFER_LEN / float(i + 1)) * 2.5)
                 cv2.line(frame, blue_pts[i - 1], blue_pts[i], (255, 0, 0), thickness)
         elif not valid and DEBUG['show_trails']:
             red_pts.appendleft(None)
