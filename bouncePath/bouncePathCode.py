@@ -3,7 +3,6 @@ import numpy as np
 import random as rng
 import imutils
 import array as arr 
-from pprint import pprint as pp
 import math
 import threading
 from networktables import NetworkTables
@@ -33,7 +32,6 @@ def do(x):
         2: "180",
         3: "turn"
     }
-    print (what_it_do.get(x, " "))
 
 #stole this part from henry. i hope it connects
 #https://github.com/2643/2020-vision/blob/multi-target-dev/main.py 53-76
@@ -42,7 +40,6 @@ def connect():
     notified = [False]
 
     def connectionListener(connected, info):
-        print(info, '; Connected=%s' % connected)
         with cond:
             notified[0] = True
             cond.notify()
@@ -52,7 +49,6 @@ def connect():
         connectionListener, immediateNotify=True)
 
     with cond:
-        print("Waiting")
         if not notified[0]:
             cond.wait()
 
@@ -187,9 +183,9 @@ while True:
 
     table.putNumber("mode", value)
 
-    cv2.imshow("raw_image", frame)
-    cv2.imshow("mask1", image)
-    cv2.imshow("drawing", drawing)
+    # cv2.imshow("raw_image", frame)
+    # cv2.imshow("mask1", image)
+    # cv2.imshow("drawing", drawing)
 
     if config.getboolean('CONNECT_TO_SERVER'):
         table.putNumber("mode", value)

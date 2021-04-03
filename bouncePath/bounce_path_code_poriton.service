@@ -1,5 +1,5 @@
 [Unit]
-Description=Start the ball tracking script for galactic search
+Description=Start the bounce path code file (allegedly)
 After=network.target
 After=network-online.target
 After=multi-user.target
