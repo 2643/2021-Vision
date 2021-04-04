@@ -5,6 +5,11 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
+systemctl stop split_camera.service
+systemctl stop gs_ball_tracking.service
+systemctl stop gs_marker_tracking.service
+systemctl stop bounce_path_code_portion.service
+
 chmod a+x duplicate_stream.sh
 ln -f ./camera.path /etc/systemd/system/
 ln -f ./split_camera.service /etc/systemd/system/
