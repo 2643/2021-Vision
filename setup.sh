@@ -23,3 +23,7 @@ systemctl enable split_camera.service
 systemctl enable gs_ball_tracking.service
 systemctl enable gs_marker_tracking.service
 systemctl enable bounce_path_code_portion.service
+
+systemctl start gs_ball_tracking.service
+systemctl start gs_marker_tracking.service
+systemctl start bounce_path_code_portion.service
