@@ -4,7 +4,7 @@ Description=Monitor dev v4l for camera device
 [Path]
 # PathExists=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_4EDBE93F-video-index0
 PathExists=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_5AB6901F-video-index0
-Unit=split-camera.service
+Unit=split_camera.service
 
 [Install]
 WantedBy=multi-user.target
