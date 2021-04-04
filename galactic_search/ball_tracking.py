@@ -11,7 +11,7 @@ CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': False,
-    'fakeNetworkTables': True,
+    'fakeNetworkTables': False,
     'dshow': False,
     'show_img': False,
     'show_filter': False,
