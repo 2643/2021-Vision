@@ -123,7 +123,7 @@ while True:
     frame = vs.read()
     frame = frame[1]
     if DEBUG['rotate']:
-        frame = cv2.getRotationMatrix2D(img_center, ROT_ANGLE, ROT_SCALE)
+        frame = cv2.rotate(frame, cv2.ROTATE_180)
 
     # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)

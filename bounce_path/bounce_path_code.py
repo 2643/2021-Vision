@@ -57,6 +57,8 @@ def connect():
     with cond:
         if not notified[0]:
             cond.wait()
+    
+    return NetworkTables.getTable('mode')
 
 if bitconneeect == True:
     table = connect()
