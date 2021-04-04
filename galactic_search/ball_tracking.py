@@ -7,15 +7,16 @@ import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = True
+CONNECT_TO_SERVER = False
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
+    'test': True,
     'show_img': False,
     'show_filter': False,
     'show_band': False,
     'show_horiz_div': False,
     'show_trails': False,
-    'rotate': False
+    'rotate': True
 }
 PRODUCTION = True # remove some double calculations. not actually.
 CENTER_BAND = 100
@@ -82,7 +83,7 @@ while True:
 
     if DEBUG['rotate']:
         frame = cv2.rotate(frame, cv2.ROTATE_180)
-        
+
     # frame = imutils.resize(frame, width=600)
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
@@ -196,12 +197,17 @@ while True:
         center_hold = center
         pts.appendleft(center) # clears pts list
 
+    if DEBUG['test']:
+        print(center)
+        print(center_hold)
+        print(hold_value)
+
     if DEBUG['show_img']:
         # loop over the set of tracked points
         for i in range(1, len(pts)):
             # if either of the tracked points are None, ignore them
             if pts[i - 1] is None or pts[i] is None:
-                continue
+                break
 
             # otherwise, compute the thickness of the line and
             # draw the connecting lines

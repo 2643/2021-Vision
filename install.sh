@@ -5,7 +5,11 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
+apt install libilmbase23
+apt install libopenexr-dev
 apt-get install vim ffmpeg python3 python3-pip libatlas-base-dev v4l2loopback-dkms
+apt install python3-opencv
+pip3 install --upgrade pip
 pip3 install pynetworktables imutils scikit-build
 pip3 install opencv-python
 
