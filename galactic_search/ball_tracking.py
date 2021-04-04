@@ -10,7 +10,8 @@ import time
 CONNECT_TO_SERVER = False
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
-    'test': True,
+    'test': False,
+    'fakeNetworkTables': True,
     'dshow': False,
     'show_img': False,
     'show_filter': False,
@@ -50,7 +51,10 @@ def connect():
 
 
 if CONNECT_TO_SERVER:
-    table = connect()
+    if not DEBUG['fakeNetworkTables']:
+        table = connect()
+    else:
+        table = open('fakenetworktable.txt', 'w+')
     DEBUG = {
         'test': False,
         'dshow': False,
@@ -171,25 +175,29 @@ while True:
         hold_value -= 1
 
     if CONNECT_TO_SERVER:
-        if center_hold is None:
-            table.putBoolean('has_target', False)
-            table.putBoolean('near', False)
-        else:
-            table.putBoolean('has_target', True)
-            if center_hold[0] < (img_center[0] - CENTER_BAND):
-                table.putNumber('left_exceeded', ((img_center[0] - CENTER_BAND) - center_hold[0]))
-            else:
-                table.putNumber('left_exceeded', 0)
-
-            if center_hold[0] > (img_center[0] + CENTER_BAND):
-                table.putNumber('right_exceeded', (center[0] - (img_center[0] + CENTER_BAND)))
-            else:
-                table.putNumber('right_exceeded', 0)
-            
-            if center_hold[1] < (img_center[1] + HORIZONTAL_OFFSET):
-                table.putBoolean('near', True)
-            else:
+        if not DEBUG['fakeNetworkTables']:
+            if center_hold is None:
+                table.putBoolean('has_target', False)
                 table.putBoolean('near', False)
+            else:
+                table.putBoolean('has_target', True)
+                if center_hold[0] < (img_center[0] - CENTER_BAND):
+                    table.putNumber('left_exceeded', ((img_center[0] - CENTER_BAND) - center_hold[0]))
+                else:
+                    table.putNumber('left_exceeded', 0)
+
+                if center_hold[0] > (img_center[0] + CENTER_BAND):
+                    table.putNumber('right_exceeded', (center[0] - (img_center[0] + CENTER_BAND)))
+                else:
+                    table.putNumber('right_exceeded', 0)
+                
+                if center_hold[1] < (img_center[1] + HORIZONTAL_OFFSET):
+                    table.putBoolean('near', True)
+                else:
+                    table.putBoolean('near', False)
+        else:
+            table.write(str(center).ljust(15)+str(center_hold).ljust(15)+str(hold_value).ljust(5)+'\n')
+            table.flush()
 
 
     # if center_hold is None:
