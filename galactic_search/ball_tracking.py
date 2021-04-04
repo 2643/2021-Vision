@@ -57,6 +57,7 @@ if CONNECT_TO_SERVER:
         table = open('fakenetworktable.txt', 'w+')
     DEBUG = {
         'test': False,
+        'fakeNetworkTables': DEBUG['fakeNetworkTables'],
         'dshow': False,
         'show_img': False,
         'show_filter': False,
