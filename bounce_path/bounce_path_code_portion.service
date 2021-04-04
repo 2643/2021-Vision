@@ -3,7 +3,7 @@ Description=Start the bounce path code file (allegedly)
 After=network.target
 After=network-online.target
 After=multi-user.target
-After=split-camera.service
+After=split_camera.service
 Wants=network-online.target
 
 [Service]
