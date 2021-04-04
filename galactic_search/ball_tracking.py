@@ -11,9 +11,9 @@ CONNECT_TO_SERVER = False
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': True,
-    'dshow': True,
-    'show_img': True,
-    'show_filter': True,
+    'dshow': False,
+    'show_img': False,
+    'show_filter': False,
     'show_band': False,
     'show_horiz_div': False,
     'show_trails': False,
@@ -52,6 +52,8 @@ def connect():
 if CONNECT_TO_SERVER:
     table = connect()
     DEBUG = {
+        'test': False,
+        'dshow': False,
         'show_img': False,
         'show_filter': False,
         'show_band': False,
