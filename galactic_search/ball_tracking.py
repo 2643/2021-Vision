@@ -11,8 +11,9 @@ CONNECT_TO_SERVER = False
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': True,
-    'show_img': False,
-    'show_filter': False,
+    'dshow': True,
+    'show_img': True,
+    'show_filter': True,
     'show_band': False,
     'show_horiz_div': False,
     'show_trails': False,
@@ -59,12 +60,16 @@ if CONNECT_TO_SERVER:
         'rotate': True
     }
 
-yellowLower = (25, 0, 64) # 22, 93, 0
-yellowUpper = (35, 255, 255) # 45, 255, 255
-minRadius = 15 # 10
+yellowLower = (25, 100, 64) # 22, 93, 0
+yellowUpper = (30, 255, 255) # 45, 255, 255
+minRadius = 5 # 10
 pts = deque(maxlen=BUFFER_LEN)
 
-vs = cv2.VideoCapture(20) #, cv2.CAP_DSHOW)
+if DEBUG['dshow']:
+    vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+else:
+    vs = cv2.VideoCapture(20)
+
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
