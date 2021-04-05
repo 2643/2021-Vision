@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 rmmod v4l2loopback
-v4l2-ctl -d /dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_5AB6901F-video-index0 --set-ctrl=exposure_auto=1  --set-ctrl=exposure_absolute=512
+v4l2-ctl -d /dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_5AB6901F-video-index0 --set-ctrl=exposure_auto=1  --set-ctrl=exposure_absolute=320
 # I have no idea how to use exposure_absolute.
 modprobe v4l2loopback video_nr=20,21,22,23,24,30
 # /dev/video30 is used for 2020-vision, not in this repo nor 2020-vision.
