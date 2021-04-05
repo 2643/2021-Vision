@@ -33,7 +33,7 @@ DEBUG = {
         'red': True	
     },
     'show_trails': False,
-    'rotate': False
+    'rotate': True
 }
 REQ_CLOSEST = True
 CENTER_BAND = 100
@@ -121,9 +121,10 @@ if DEBUG['dshow']:
 else:
     vs = cv2.VideoCapture(21)
 
-vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-vs.set(cv2.CAP_PROP_EXPOSURE, -7)
-vs.set(cv2.CAP_PROP_FPS, 30)
+if not CONNECT_TO_SERVER:
+    vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+    vs.set(cv2.CAP_PROP_EXPOSURE, -7)
+    vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
 
