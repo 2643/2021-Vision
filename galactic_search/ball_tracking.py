@@ -11,7 +11,7 @@ CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': False,
-    'fakeNetworkTables': False,
+    'fakeNetworkTables': True,
     'dshow': True,
     'show_img': True,
     'show_filter': True,
@@ -54,7 +54,7 @@ if CONNECT_TO_SERVER:
     if not DEBUG['fakeNetworkTables']:
         table = connect()
     else:
-        table = open('fakenetworktable.txt', 'w+')
+        table = open('gs_ballfakenetworktable.txt', 'w+')
     DEBUG = {
         'test': False,
         'fakeNetworkTables': DEBUG['fakeNetworkTables'],

@@ -12,6 +12,7 @@ CONNECT_TO_SERVER = True
 # Normal image, Filter image
 DEBUG = {
     'dshow': True,
+    'fakeNetworkTables': True,
     'show_img': True,
     'show_filter': True,
     'show_centroid': True,
@@ -64,9 +65,13 @@ def connect():
 
 
 if CONNECT_TO_SERVER:
-    table = connect()
+    if not DEBUG['fakeNetworkTables']:
+        table = connect()
+    else:
+        table = open('gs_markerfakenetworktable.txt', 'w+')
     DEBUG = {
         'dshow': False,
+        'fakeNetworkTables': DEBUG['fakeNetworkTables'],
         'show_img': False,
         'show_filter': False,
         'show_centroid': False,
@@ -126,6 +131,7 @@ img_x_size = int(vs.get(cv2.CAP_PROP_FRAME_WIDTH))
 img_y_size = int(vs.get(cv2.CAP_PROP_FRAME_HEIGHT))
 img_center = (img_x_size//2, img_y_size//2)
 
+valid_ctr = -1
 while True:
     frame = vs.read()
     frame = frame[1]
@@ -260,30 +266,40 @@ while True:
             else: valid = False
             
             if valid:
+                valid_ctr = 15
                 center_avg = ((red_max_c['center'][0] + blue_max_c['center'][0])//2, (red_max_c['center'][1] + blue_max_c['center'][1])//2)
                 if DEBUG['show_max_box']['blue'] and DEBUG['show_max_box']['red']:
                     cv2.circle(frame, center_avg, 5, (0, 255, 0), -1)
-
-    if CONNECT_TO_SERVER:
-        if center_avg is None:
-            table.putBoolean('has_target', False)
-            table.putBoolean('near', False)
-        else:
-            table.putBoolean('has_target', True)
-            if center_avg[0] < (img_center[0] - CENTER_BAND):
-                table.putNumber('left_exceeded', ((img_center[0] - CENTER_BAND) - center_avg[0]))
-            else:
-                table.putNumber('left_exceeded', 0)
-
-            if center_avg[0] > (img_center[0] + CENTER_BAND):
-                table.putNumber('right_exceeded', (center_avg[0] - (img_center[0] + CENTER_BAND)))
-            else:
-                table.putNumber('right_exceeded', 0)
             
-            if center_avg[1] < (img_center[1] + HORIZONTAL_OFFSET):
-                table.putBoolean('near', True)
-            else:
+    if valid_ctr >= 0:
+        valid_ctr -= 1
+    else:
+        center_avg = None
+
+    if CONNECT_TO_SERVER and REQ_CLOSEST:
+        if not DEBUG['fakeNetworkTables']:
+            if center_avg is None and valid_ctr < 0:
+                table.putBoolean('has_target', False)
                 table.putBoolean('near', False)
+            else:
+                table.putBoolean('has_target', True)
+                if center_avg[0] < (img_center[0] - CENTER_BAND):
+                    table.putNumber('left_exceeded', ((img_center[0] - CENTER_BAND) - center_avg[0]))
+                else:
+                    table.putNumber('left_exceeded', 0)
+
+                if center_avg[0] > (img_center[0] + CENTER_BAND):
+                    table.putNumber('right_exceeded', (center_avg[0] - (img_center[0] + CENTER_BAND)))
+                else:
+                    table.putNumber('right_exceeded', 0)
+                
+                if center_avg[1] < (img_center[1] + HORIZONTAL_OFFSET):
+                    table.putBoolean('near', True)
+                else:
+                    table.putBoolean('near', False)
+        else:
+            table.write(str(center_avg).ljust(15) + "  " + str(valid_ctr).ljust(5))
+            table.flush()
 
 
     if DEBUG['show_img']:
