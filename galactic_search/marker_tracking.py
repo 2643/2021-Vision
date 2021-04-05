@@ -112,10 +112,10 @@ redUpperOne = (179, 255, 255) # TODO: get vals.
 redLowerTwo = (0, 128, 32)    # TODO: get vals. 
 redUpperTwo = (5, 255, 255) # TODO: get vals. 
 
-blueLower = (105, 80, 64)     # TODO: get vals. higher saturation I think. b/c MPR light blue.
-blueUpper = (130, 255, 255)   # TODO: get vals. 
+blueLower = (100, 64, 32)     # TODO: get vals. higher saturation I think. b/c MPR light blue.
+blueUpper = (120, 255, 128)   # TODO: get vals. 
 
-minArea = 150 # 10 TODO: tune.
+minArea = 100 # 10 TODO: tune.
 red_pts = deque(maxlen=BUFFER_LEN)
 blue_pts = deque(maxlen=BUFFER_LEN)
 
@@ -124,7 +124,7 @@ if DEBUG['dshow'] and sys.platform.startswith('win32'):
 elif DEBUG['dshow'] and sys.platform.startswith('linux'):
     vs = cv2.VideoCapture(2)
 else:
-    vs = cv2.VideoCapture(21)
+    vs = cv2.VideoCapture(2)
 
 if not CONNECT_TO_SERVER and sys.platform.startswith('win32'):
     vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
@@ -149,11 +149,11 @@ while True:
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     red_mask_one = cv2.inRange(hsv, redLowerOne, redUpperOne)
-    red_mask_two = cv2.inRange(hsv, redLowerTwo, redUpperTwo)
-    red_mask = red_mask_one + red_mask_two
+    #red_mask_two = cv2.inRange(hsv, redLowerTwo, redUpperTwo)
+    red_mask = red_mask_one # + red_mask_two
     if DEBUG['show_filter']:
         cv2.imshow("red_filter_one", red_mask_one)
-        cv2.imshow("red_filter_two", red_mask_two)
+        #cv2.imshow("red_filter_two", red_mask_two)
         cv2.imshow("red_filter", red_mask)
     red_mask = cv2.erode(red_mask, None, iterations=2)
     red_mask = cv2.dilate(red_mask, None, iterations=2)
@@ -175,13 +175,17 @@ while True:
                 box = np.int0(box)
                 valid_red_cnts.append({
                     'contour': c,
-                    'left_edge': min(box[0][0], box[3][0]),
-                    'right_edge': max(box[1][0], box[2][0]),
+                    'left_edge': min(box[1][0], box[2][0]),
+                    'right_edge': max(box[0][0], box[3][0]),
                     'top_edge': min(box[0][1], box[1][1]),
                     'bottom_edge': min(box[2][1], box[3][1]),
                     'center': red_center,
-                    'box': box
+                    'box': box, 
+                    'area': M["m00"]
                 })
+                if DEBUG['show_img'] and DEBUG['draw_normal_box']['red']:
+                        cv2.drawContours(frame, [box], 0, (255, 0, 0), 2)
+                        cv2.circle(frame, red_center, 2, (0, 0, 255))
     else:
         red_center = None
 
@@ -209,16 +213,23 @@ while True:
                 box = cv2.boxPoints(rect)
                 box = np.int0(box)
 
+                if DEBUG['show_img'] and DEBUG['draw_normal_box']['blue']:
+                    cv2.drawContours(frame, [box], 0, (255, 0, 0), 2)
+                    cv2.circle(frame, blue_center, 2, (255, 0, 0))
                 for red_c in valid_red_cnts:
+                    # cv2.line(frame, (0, red_c['top_edge']), (img_x_size, red_c['top_edge']), (0, 0, 255))
+                    # cv2.line(frame, (red_c['left_edge'], 0), (red_c['left_edge'], img_y_size), (0, 0, 255))
+                    # cv2.line(frame, (red_c['right_edge'], 0), (red_c['right_edge'], img_y_size), (0, 0, 255))
                     if blue_center[0] >= red_c['left_edge'] and blue_center[0] <= red_c['right_edge'] and blue_center[1] <= red_c['top_edge']:
                         valid_blue_cnts.append({
                             'contour': c,
-                            'left_edge': min(box[0][0], box[3][0]),
-                            'right_edge': max(box[1][0], box[2][0]),
+                            'left_edge': min(box[1][0], box[2][0]),
+                            'right_edge': max(box[0][0], box[3][0]),
                             'top_edge': min(box[0][1], box[1][1]),
                             'bottom_edge': min(box[2][1], box[3][1]),
                             'center': blue_center,
-                            'box': box
+                            'box': box,
+                            'area': M["m00"]
                         })
                         if DEBUG['show_img'] and DEBUG['draw_normal_box']['blue']:
                             cv2.drawContours(frame, [box], 0, (255, 0, 0), 2)
@@ -226,11 +237,18 @@ while True:
     else:
         blue_center = None
 
+    # for blue_c in valid_blue_cnts:
+    #     cv2.line(frame, (0, blue_c['top_edge']), (img_x_size, blue_c['top_edge']), (0, 0, 255))
+    #     cv2.line(frame, (blue_c['left_edge'], 0), (blue_c['left_edge'], img_y_size), (255, 0, 0))
+    #     cv2.line(frame, (blue_c['right_edge'], 0), (blue_c['right_edge'], img_y_size), (0, 0, 255))
+    #     print(blue_c['left_edge'])
+
     to_rm = []
     for ind, red_c in enumerate(valid_red_cnts):
         in_range = False
         for blue_c in valid_blue_cnts:
-            if red_c['center'][0] >= blue_c['left_edge'] and red_c['center'][0] <= blue_c['right_edge'] and red_c['center'][1] >= blue_c['bottom_edge']:
+            # cv2.line(frame, (blue_c['left_edge'], 0), (blue_c['left_edge'], img_y_size), (0, 0, 255))
+            if red_c['center'][0] >= blue_c['left_edge'] and red_c['center'][0] <= blue_c['right_edge'] and red_c['center'][1] >= blue_c['top_edge']:
                 in_range = True
                 break
         if not in_range:
@@ -246,7 +264,7 @@ while True:
             #track the largest
             valid = True
             if len(valid_blue_cnts) > 0:
-                c = max([datapack for datapack in valid_blue_cnts], key=lambda dc: cv2.contourArea(dc['contour']))
+                c = max([datapack for datapack in valid_blue_cnts], key=lambda dc: dc['area'])
                 box = c['box']
 
                 if DEBUG['show_img']:
@@ -261,7 +279,7 @@ while True:
             else: valid = False
 
             if len(valid_red_cnts) > 0:
-                c = max([datapack for datapack in valid_red_cnts], key=lambda dc: cv2.contourArea(dc['contour']))
+                c = max([datapack for datapack in valid_red_cnts], key=lambda dc: dc['area'])
                 box = c['box']
 
                 if DEBUG['show_img']:
