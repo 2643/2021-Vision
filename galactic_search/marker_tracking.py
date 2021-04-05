@@ -298,7 +298,7 @@ while True:
                 else:
                     table.putBoolean('near', False)
         else:
-            table.write(str(center_avg).ljust(15) + "  " + str(valid_ctr).ljust(5))
+            table.write(str(center_avg).ljust(15) + "  " + str(valid_ctr).ljust(5) + '\n')
             table.flush()
 
 
