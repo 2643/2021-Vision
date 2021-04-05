@@ -13,7 +13,7 @@ CONNECT_TO_SERVER = True
 # Normal image, Filter image
 DEBUG = {
     'dshow': True,
-    'fakeNetworkTables': True,
+    'fakeNetworkTables': False,
     'show_img': True,
     'show_filter': True,
     'show_centroid': True,

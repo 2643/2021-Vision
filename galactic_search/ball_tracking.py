@@ -8,11 +8,11 @@ import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = False
+CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': False,
-    'fakeNetworkTables': True,
+    'fakeNetworkTables': False,
     'dshow': True,
     'show_img': True,
     'show_filter': True,
