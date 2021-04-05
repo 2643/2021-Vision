@@ -12,9 +12,9 @@ CONNECT_TO_SERVER = True
 DEBUG = {
     'test': False,
     'fakeNetworkTables': False,
-    'dshow': False,
-    'show_img': False,
-    'show_filter': False,
+    'dshow': True,
+    'show_img': True,
+    'show_filter': True,
     'show_band': False,
     'show_horiz_div': False,
     'show_trails': False,
@@ -77,6 +77,8 @@ if DEBUG['dshow']:
 else:
     vs = cv2.VideoCapture(20)
 
+vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+vs.set(cv2.CAP_PROP_EXPOSURE, -7)
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)

@@ -11,6 +11,7 @@ import time
 CONNECT_TO_SERVER = True
 # Normal image, Filter image
 DEBUG = {
+    'dshow': True,
     'show_img': True,
     'show_filter': True,
     'show_centroid': True,
@@ -65,6 +66,7 @@ def connect():
 if CONNECT_TO_SERVER:
     table = connect()
     DEBUG = {
+        'dshow': False,
         'show_img': False,
         'show_filter': False,
         'show_centroid': False,
@@ -109,8 +111,13 @@ minArea = 150 # 10 TODO: tune.
 red_pts = deque(maxlen=BUFFER_LEN)
 blue_pts = deque(maxlen=BUFFER_LEN)
 
+if DEBUG['dshow']:
+    vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+else:
+    vs = cv2.VideoCapture(21)
 
-vs = cv2.VideoCapture(21) #, cv2.CAP_DSHOW)
+vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+vs.set(cv2.CAP_PROP_EXPOSURE, -7)
 vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
