@@ -8,7 +8,7 @@ import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = False
+CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': False,
@@ -73,7 +73,7 @@ yellowUpper = (30, 255, 255) # 45, 255, 255
 minRadius = 5 # 10
 pts = deque(maxlen=BUFFER_LEN)
 
-if DEBUG['dshow']:
+if DEBUG['dshow']and sys.platform.startswith('win32'):
     vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 elif DEBUG['dshow'] and sys.platform.startswith('linux'):
     vs = cv2.VideoCapture(2)

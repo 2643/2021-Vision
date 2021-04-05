@@ -9,7 +9,7 @@ import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = False
+CONNECT_TO_SERVER = True
 # Normal image, Filter image
 DEBUG = {
     'dshow': True,
@@ -119,7 +119,7 @@ minArea = 150 # 10 TODO: tune.
 red_pts = deque(maxlen=BUFFER_LEN)
 blue_pts = deque(maxlen=BUFFER_LEN)
 
-if DEBUG['dshow']:
+if DEBUG['dshow'] and sys.platform.startswith('win32'):
     vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 elif DEBUG['dshow'] and sys.platform.startswith('linux'):
     vs = cv2.VideoCapture(2)
@@ -139,7 +139,6 @@ img_center = (img_x_size//2, img_y_size//2)
 
 valid_ctr = -1
 while True:
-    print("frame")
     frame = vs.read()
     frame = frame[1]
     if DEBUG['rotate']:
