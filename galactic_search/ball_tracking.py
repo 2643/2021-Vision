@@ -2,12 +2,13 @@
 from collections import deque
 from networktables import NetworkTables
 import numpy as np
+import sys
 import threading
 import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = True
+CONNECT_TO_SERVER = False
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': False,
@@ -74,10 +75,12 @@ pts = deque(maxlen=BUFFER_LEN)
 
 if DEBUG['dshow']:
     vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+elif DEBUG['dshow'] and sys.platform.startswith('linux'):
+    vs = cv2.VideoCapture(2)
 else:
     vs = cv2.VideoCapture(20)
 
-if not CONNECT_TO_SERVER:
+if not CONNECT_TO_SERVER and sys.platform.startswith('win32'):
     vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
     vs.set(cv2.CAP_PROP_EXPOSURE, -7)
     vs.set(cv2.CAP_PROP_FPS, 30)
