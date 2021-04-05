@@ -68,7 +68,7 @@ if CONNECT_TO_SERVER:
         'rotate': True
     }
 
-yellowLower = (20, 64, 32) # 22, 93, 0
+yellowLower = (25, 128, 64) # 22, 93, 0
 yellowUpper = (35, 255, 255) # 45, 255, 255
 minRadius = 5 # 10
 pts = deque(maxlen=BUFFER_LEN)
