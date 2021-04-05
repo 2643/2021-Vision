@@ -5,6 +5,8 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
+cd "$(dirname "$0")"
+
 systemctl stop split_camera.service
 systemctl stop gs_ball_tracking.service
 systemctl stop gs_marker_tracking.service
