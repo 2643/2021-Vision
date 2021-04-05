@@ -2,6 +2,7 @@
 from collections import deque
 from networktables import NetworkTables
 import numpy as np
+import sys
 import threading
 import cv2
 import imutils
@@ -67,17 +68,19 @@ if CONNECT_TO_SERVER:
         'rotate': True
     }
 
-yellowLower = (25, 100, 64) # 22, 93, 0
-yellowUpper = (30, 255, 255) # 45, 255, 255
+yellowLower = (20, 64, 32) # 22, 93, 0
+yellowUpper = (35, 255, 255) # 45, 255, 255
 minRadius = 5 # 10
 pts = deque(maxlen=BUFFER_LEN)
 
-if DEBUG['dshow']:
+if DEBUG['dshow']and sys.platform.startswith('win32'):
     vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+elif DEBUG['dshow'] and sys.platform.startswith('linux'):
+    vs = cv2.VideoCapture(2)
 else:
     vs = cv2.VideoCapture(20)
 
-if not CONNECT_TO_SERVER:
+if not CONNECT_TO_SERVER and sys.platform.startswith('win32'):
     vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
     vs.set(cv2.CAP_PROP_EXPOSURE, -7)
     vs.set(cv2.CAP_PROP_FPS, 30)
@@ -255,3 +258,6 @@ while True:
 
 vs.release()
 cv2.destroyAllWindows()
+
+if CONNECT_TO_SERVER and DEBUG['fakeNetworkTables']:
+    table.truncate(0)

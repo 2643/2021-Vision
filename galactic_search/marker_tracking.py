@@ -2,6 +2,7 @@
 from collections import deque
 from networktables import NetworkTables
 # from sympy import Interval, Union # not performant enough with multiple interval joins.
+import sys
 import numpy as np
 import threading
 import cv2
@@ -106,22 +107,26 @@ if CONNECT_TO_SERVER:
 
 # mask = cv2.inRange(img_hsv,lo,hi)
 
-redLower = (170, 0, 0)    # TODO: get vals. 
-redUpper = (179, 255, 255) # TODO: get vals. 
+redLowerOne = (170, 128, 32)    # TODO: get vals. 
+redUpperOne = (179, 255, 255) # TODO: get vals. 
+redLowerTwo = (0, 128, 32)    # TODO: get vals. 
+redUpperTwo = (5, 255, 255) # TODO: get vals. 
 
-blueLower = (100, 80, 0)     # TODO: get vals. higher saturation I think. b/c MPR light blue.
-blueUpper = (110, 255, 255)   # TODO: get vals. 
+blueLower = (105, 80, 64)     # TODO: get vals. higher saturation I think. b/c MPR light blue.
+blueUpper = (130, 255, 255)   # TODO: get vals. 
 
 minArea = 150 # 10 TODO: tune.
 red_pts = deque(maxlen=BUFFER_LEN)
 blue_pts = deque(maxlen=BUFFER_LEN)
 
-if DEBUG['dshow']:
+if DEBUG['dshow'] and sys.platform.startswith('win32'):
     vs = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+elif DEBUG['dshow'] and sys.platform.startswith('linux'):
+    vs = cv2.VideoCapture(2)
 else:
     vs = cv2.VideoCapture(21)
 
-if not CONNECT_TO_SERVER:
+if not CONNECT_TO_SERVER and sys.platform.startswith('win32'):
     vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
     vs.set(cv2.CAP_PROP_EXPOSURE, -7)
     vs.set(cv2.CAP_PROP_FPS, 30)
@@ -143,8 +148,12 @@ while True:
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
-    red_mask = cv2.inRange(hsv, redLower, redUpper)
+    red_mask_one = cv2.inRange(hsv, redLowerOne, redUpperOne)
+    red_mask_two = cv2.inRange(hsv, redLowerTwo, redUpperTwo)
+    red_mask = red_mask_one + red_mask_two
     if DEBUG['show_filter']:
+        #cv2.imshow("red_filter_one", red_mask_one)
+        #cv2.imshow("red_filter_two", red_mask_two)
         cv2.imshow("red_filter", red_mask)
     red_mask = cv2.erode(red_mask, None, iterations=2)
     red_mask = cv2.dilate(red_mask, None, iterations=2)
@@ -354,3 +363,6 @@ while True:
 
 vs.release()
 cv2.destroyAllWindows()
+
+if CONNECT_TO_SERVER and DEBUG['fakeNetworkTables']:
+    table.truncate(0)
