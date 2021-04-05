@@ -294,7 +294,7 @@ while True:
             else: valid = False
             
             if valid:
-                valid_ctr = 15
+                valid_ctr = 5
                 center_avg = ((red_max_c['center'][0] + blue_max_c['center'][0])//2, (red_max_c['center'][1] + blue_max_c['center'][1])//2)
                 if DEBUG['show_max_box']['blue'] and DEBUG['show_max_box']['red']:
                     cv2.circle(frame, center_avg, 5, (0, 255, 0), -1)

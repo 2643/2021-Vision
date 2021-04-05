@@ -163,7 +163,7 @@ while True:
                 # if radius > minRadius:
             center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
             center_hold = center
-            hold_value = 15
+            hold_value = 5
 
             if DEBUG['show_img']:
                 cv2.circle(frame, (int(x), int(y)), int(radius),
