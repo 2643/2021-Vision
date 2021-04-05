@@ -23,7 +23,7 @@ DEBUG = {
 }
 PRODUCTION = True # remove some double calculations. not actually.
 CENTER_BAND = 100
-HORIZONTAL_OFFSET = 100
+HORIZONTAL_OFFSET = 200
 PERCENT_ERROR = 0.25
 BUFFER_LEN = 64
 ROT_ANGLE = 180
