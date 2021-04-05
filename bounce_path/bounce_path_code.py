@@ -69,8 +69,8 @@ if bitconneeect == True:
 #upper_color = np.array([30, 255, 255], np.uint8)
 
 #test with DARK blue
-lower_color = np.array([100, 100, 80], np.uint8)
-upper_color = np.array([140, 255, 255], np.uint8)
+lower_color = np.array([100, 64, 32], np.uint8)
+upper_color = np.array([120, 255, 128], np.uint8)
 
 kernel = np.ones((x1,x1), np.uint8)
 kernel2 = np.ones((x2,x2), np.uint8)
