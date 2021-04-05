@@ -1,10 +1,11 @@
 import numpy as np
-
+from networktables import NetworkTables, NetworkTablesInstance
+import threading
 import cv2
 
  
 
-video_capture = cv2.VideoCapture(1)
+video_capture = cv2.VideoCapture(22)
 
 video_capture.set(3, 160)
 

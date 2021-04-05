@@ -1,0 +1,18 @@
+[Unit]
+Description=Script for barrel racing path
+After=network.target
+After=network-online.target
+After=multi-user.target
+After=split_camera.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/2021-vision/barrel_racing/
+ExecStart=/bin/bash -c 'python3 /home/pi/2021-vision/barrel_racing/line_detector.py'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
