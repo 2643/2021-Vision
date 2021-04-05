@@ -8,7 +8,7 @@ import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = True
+CONNECT_TO_SERVER = False
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
     'test': False,
@@ -68,8 +68,8 @@ if CONNECT_TO_SERVER:
         'rotate': True
     }
 
-yellowLower = (25, 128, 64) # 22, 93, 0
-yellowUpper = (35, 255, 255) # 45, 255, 255
+yellowLower = (15, 100, 0) # 22, 93, 0
+yellowUpper = (30, 255, 255) # 45, 255, 255
 minRadius = 5 # 10
 pts = deque(maxlen=BUFFER_LEN)
 

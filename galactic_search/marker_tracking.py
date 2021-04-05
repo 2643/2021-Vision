@@ -124,7 +124,7 @@ if DEBUG['dshow'] and sys.platform.startswith('win32'):
 elif DEBUG['dshow'] and sys.platform.startswith('linux'):
     vs = cv2.VideoCapture(2)
 else:
-    vs = cv2.VideoCapture(2)
+    vs = cv2.VideoCapture(21)
 
 if not CONNECT_TO_SERVER and sys.platform.startswith('win32'):
     vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
