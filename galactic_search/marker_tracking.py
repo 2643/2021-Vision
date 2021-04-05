@@ -152,8 +152,8 @@ while True:
     red_mask_two = cv2.inRange(hsv, redLowerTwo, redUpperTwo)
     red_mask = red_mask_one + red_mask_two
     if DEBUG['show_filter']:
-        #cv2.imshow("red_filter_one", red_mask_one)
-        #cv2.imshow("red_filter_two", red_mask_two)
+        cv2.imshow("red_filter_one", red_mask_one)
+        cv2.imshow("red_filter_two", red_mask_two)
         cv2.imshow("red_filter", red_mask)
     red_mask = cv2.erode(red_mask, None, iterations=2)
     red_mask = cv2.dilate(red_mask, None, iterations=2)
