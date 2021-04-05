@@ -9,7 +9,7 @@ import cv2
 import imutils
 import time
 
-CONNECT_TO_SERVER = True
+CONNECT_TO_SERVER = False
 # Normal image, Filter image
 DEBUG = {
     'dshow': True,
