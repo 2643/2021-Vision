@@ -363,3 +363,6 @@ while True:
 
 vs.release()
 cv2.destroyAllWindows()
+
+if CONNECT_TO_SERVER and DEBUG['fakeNetworkTables']:
+    table.truncate(0)
