@@ -198,7 +198,7 @@ while True:
                 else:
                     table.putNumber('right_exceeded', 0)
                 
-                if center_hold[1] < (img_center[1] + HORIZONTAL_OFFSET):
+                if center_hold[1] > (img_center[1] + HORIZONTAL_OFFSET):
                     table.putBoolean('near', True)
                 else:
                     table.putBoolean('near', False)
