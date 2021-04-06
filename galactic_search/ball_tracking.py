@@ -16,14 +16,15 @@ DEBUG = {
     'dshow': True,
     'show_img': True,
     'show_filter': True,
-    'show_band': False,
-    'show_horiz_div': False,
+    'show_band': True,
+    'show_horiz_div': True,
     'show_trails': False,
     'rotate': True
 }
 PRODUCTION = True # remove some double calculations. not actually.
 CENTER_BAND = 100
-HORIZONTAL_OFFSET = 200
+HORIZONTAL_OFFSET = 125
+VERTICAL_JUST = 50
 PERCENT_ERROR = 0.25
 BUFFER_LEN = 64
 ROT_ANGLE = 180
@@ -82,13 +83,13 @@ else:
 
 if not CONNECT_TO_SERVER and sys.platform.startswith('win32'):
     vs.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-    vs.set(cv2.CAP_PROP_EXPOSURE, -7)
+    vs.set(cv2.CAP_PROP_EXPOSURE, -4)
     vs.set(cv2.CAP_PROP_FPS, 30)
 
 time.sleep(1.0)
 
-img_x_size = int(vs.get(cv2.CAP_PROP_FRAME_WIDTH))
-img_y_size = int(vs.get(cv2.CAP_PROP_FRAME_HEIGHT))
+img_x_size = int(vs.get(cv2.CAP_PROP_FRAME_WIDTH))+VERTICAL_JUST
+img_y_size = int(vs.get(cv2.CAP_PROP_FRAME_HEIGHT))+VERTICAL_JUST
 img_center = (img_x_size//2, img_y_size//2)
 
 
@@ -194,7 +195,7 @@ while True:
                     table.putNumber('left_exceeded', 0)
 
                 if center_hold[0] > (img_center[0] + CENTER_BAND):
-                    table.putNumber('right_exceeded', (center[0] - (img_center[0] + CENTER_BAND)))
+                    table.putNumber('right_exceeded', (center_hold[0] - (img_center[0] + CENTER_BAND)))
                 else:
                     table.putNumber('right_exceeded', 0)
                 
@@ -220,10 +221,22 @@ while True:
         pts.appendleft(center) # clears pts list
 
     if DEBUG['test']:
-        print(center)
-        print(center_hold)
-        print(hold_value)
+        print(str(center).ljust(10), str(center_hold).ljust(10), str(hold_value).ljust(5), end='')
+        if center_hold is None:
+                print('False ', end='')
+        else:
+            print('True ', end='')
+            if center_hold[0] < (img_center[0] - CENTER_BAND):
+                print('left_exceeded:' + str((img_center[0] - CENTER_BAND) - center_hold[0]), end='')
 
+            if center_hold[0] > (img_center[0] + CENTER_BAND):
+                print('right_exceeded:' + str((center_hold[0] - (img_center[0] + CENTER_BAND))), end='')
+                
+            if center_hold[1] > (img_center[1] + HORIZONTAL_OFFSET):
+                print('near', end='')
+            
+        print('')
+        
     if DEBUG['show_img']:
         # loop over the set of tracked points
         for i in range(1, len(pts)):
