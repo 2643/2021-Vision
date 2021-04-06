@@ -102,7 +102,7 @@ while(True):
 
     #Display the resulting frame
 
-    cv2.imshow('frame',crop_img)
+    #cv2.imshow('frame',crop_img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
 
