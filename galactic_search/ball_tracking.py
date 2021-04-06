@@ -11,7 +11,7 @@ import time
 CONNECT_TO_SERVER = True
 # Normal image, Filter image, Show center band, Show horizontal divider
 DEBUG = {
-    'test': False,
+    'test': True,
     'fakeNetworkTables': False,
     'dshow': True,
     'show_img': True,
@@ -190,14 +190,12 @@ while True:
             else:
                 table.putBoolean('has_target', True)
                 if center_hold[0] < (img_center[0] - CENTER_BAND):
-                    table.putNumber('left_exceeded', ((img_center[0] - CENTER_BAND) - center_hold[0]))
-                else:
-                    table.putNumber('left_exceeded', 0)
+                    table.putNumber('left', min(0.15, ((img_center[0] - CENTER_BAND) - center_hold[0]))*0.1)
+                    table.putNumber('right', -min(0.15, ((img_center[0] - CENTER_BAND) - center_hold[0]))*0.1)
 
                 if center_hold[0] > (img_center[0] + CENTER_BAND):
-                    table.putNumber('right_exceeded', (center_hold[0] - (img_center[0] + CENTER_BAND)))
-                else:
-                    table.putNumber('right_exceeded', 0)
+                    table.putNumber('right', min(0.15, (center_hold[0] - (img_center[0] + CENTER_BAND))*0.1))
+                    table.putNumber('left', -min(0.15, (center_hold[0] - (img_center[0] + CENTER_BAND))*0.1))
                 
                 if center_hold[1] > (img_center[1] + HORIZONTAL_OFFSET):
                     table.putBoolean('near', True)
@@ -221,21 +219,24 @@ while True:
         pts.appendleft(center) # clears pts list
 
     if DEBUG['test']:
-        print(str(center).ljust(10), str(center_hold).ljust(10), str(hold_value).ljust(5), end='')
         if center_hold is None:
-                print('False ', end='')
+            print('none')
         else:
-            print('True ', end='')
+            print(str(center).ljust(10), str(center_hold).ljust(10), str(hold_value).ljust(5), end='')
             if center_hold[0] < (img_center[0] - CENTER_BAND):
-                print('left_exceeded:' + str((img_center[0] - CENTER_BAND) - center_hold[0]), end='')
+                print('left  ' + str(min(0.15, ((img_center[0] - CENTER_BAND) - center_hold[0]))*0.002+0.05).ljust(15), end='')
+                print('right ' + str(-min(0.15, ((img_center[0] - CENTER_BAND) - center_hold[0]))*0.002+0.05).ljust(15), end='')
 
             if center_hold[0] > (img_center[0] + CENTER_BAND):
-                print('right_exceeded:' + str((center_hold[0] - (img_center[0] + CENTER_BAND))), end='')
-                
+                print('left  ' + str(-min(0.15, (center_hold[0] - (img_center[0] + CENTER_BAND))*0.002)+0.05).ljust(15), end='')
+                print('right ' + str(min(0.15, (center_hold[0] - (img_center[0] + CENTER_BAND))*0.002)+0.05).ljust(15), end='')
+            
             if center_hold[1] > (img_center[1] + HORIZONTAL_OFFSET):
                 print('near', end='')
-            
-        print('')
+            else:
+                print('notn', end='')
+                
+            print('')
         
     if DEBUG['show_img']:
         # loop over the set of tracked points
