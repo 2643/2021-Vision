@@ -12,25 +12,26 @@ video_capture.set(3, 160)
 video_capture.set(4, 120)
 
  
-cond = threading.Condition()
-notified = [False]
+def connect():
+    cond = threading.Condition()
+    notified = [False]
 
-def connectionListener(connected, info):
-    #print(info, '; Connected=%s' % connected)
+    def connectionListener(connected, info):
+        with cond:
+            notified[0] = True
+            cond.notify()
+
+    NetworkTables.initialize(server='roborio-2643-frc.local')
+    NetworkTables.addConnectionListener(
+        connectionListener, immediateNotify=True)
+
     with cond:
-        notified[0] = True
-        cond.notify()
+        if not notified[0]:
+            cond.wait()
+    
+    return NetworkTables.getTable('datatable')
 
-NetworkTables.initialize(server='10.26.43.2')
-NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
-
-with cond:
-   # print("Waiting")
-    if not notified[0]:
-        cond.wait()
-
-# Insert your processing code here
-#print("Connected!")
+table = connect()
 
 
 while(True):
@@ -97,7 +98,7 @@ while(True):
 
         cv2.drawContours(crop_img, contours, -1, (0,255,0), 1)
 
-    NetworkTablesInstance.getTable("datatable").putNumber("Idk", cx)
+    table.putNumber("Idk", cx)
  
 
     #Display the resulting frame
