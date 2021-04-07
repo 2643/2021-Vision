@@ -12,6 +12,7 @@ systemctl stop gs_ball_tracking.service
 systemctl stop gs_marker_tracking.service
 systemctl stop bounce_path_code_portion.service
 systemctl stop line_detector.service
+chmod a+x stop.sh
 
 chmod a+x duplicate_stream.sh
 ln -f ./camera.path /etc/systemd/system/
